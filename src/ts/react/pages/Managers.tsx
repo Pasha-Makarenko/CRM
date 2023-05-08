@@ -13,8 +13,7 @@ const Managers: React.FC = () => {
   const user = useAppSelector(state => state.userState)
   if (user.role != "admin") return <React.Fragment/>
 
-  // const { data, isLoading, error } = adminApi.useGetManagersQuery(user.token || "")
-  const { data } = useGetManagersQuery(user.token || "")
+  const { data, isLoading, error } = useGetManagersQuery()
   const modal = modalActions(useAppDispatch())
   const [form, setForm] = useState<ManagerAddInput>({username: "", email: "", password: "", passwordConfirm: ""})
 
@@ -105,7 +104,7 @@ const Managers: React.FC = () => {
                   </ul>
                 </form>
               </Modal>
-              <ModalTarget idState={"manager-add"} type="button" className="managers__add-target button_violet">
+              <ModalTarget idState={"manager-add"} className="managers__add-target button_violet">
                 <FontAwesomeIcon icon={faPlus}/>
               </ModalTarget>
             </div>
@@ -119,39 +118,39 @@ const Managers: React.FC = () => {
                 </tr>
                 </thead>
                 <tbody className="table-managers__body">
-                {/*{*/}
-                {/*  isLoading ?*/}
-                {/*    "Loading..." :*/}
-                {/*    error ?*/}
-                {/*      "Something went wrong" :*/}
-                {/*      new Array(10).fill(null).map((_, i) =>*/}
-                {/*        <tr key={i} className="table-managers__row">*/}
-                {/*          <td className="table-managers__item">*/}
-                {/*            <Link to={"/managers/:manager"}>Name Surname</Link>*/}
-                {/*          </td>*/}
-                {/*          <td className="table-managers__item">*/}
-                {/*            <Link to={"/managers/:manager/customers"}>Clients</Link>*/}
-                {/*          </td>*/}
-                {/*          <td className="table-managers__item">*/}
-                {/*            <Link to={"/managers/:manager/customers/deposits"}>Deposits</Link>*/}
-                {/*          </td>*/}
-                {/*        </tr>*/}
-                {/*      )*/}
-                {/*}*/}
                 {
-                  new Array(10).fill(null).map((_, i) => <tr key={i} className="table-managers__row">
-                      <td className="table-managers__item">
-                        <Link to={"/managers/:manager"}>Имя Фамилия</Link>
-                      </td>
-                      <td className="table-managers__item link">
-                        <Link to={"/managers/:manager/customers"}>Клиенты</Link>
-                      </td>
-                      <td className="table-managers__item link">
-                        <Link to={"/managers/:manager/deposits"}>Депозиты</Link>
-                      </td>
-                    </tr>
-                  )
+                  isLoading ?
+                    "Loading..." :
+                    error ?
+                      "Something went wrong" :
+                      data && data.map((manager, i) =>
+                        <tr key={i} className="table-managers__row">
+                          <td className="table-managers__item">
+                            <Link to={"/managers/:manager"}>{manager.username}</Link>
+                          </td>
+                          <td className="table-managers__item link">
+                            <Link to={"/managers/:manager/customers"}>Клиенты</Link>
+                          </td>
+                          <td className="table-managers__item link">
+                            <Link to={"/managers/:manager/deposits"}>Депозиты</Link>
+                          </td>
+                        </tr>
+                      )
                 }
+                {/*{*/}
+                {/*  new Array(10).fill(null).map((_, i) => <tr key={i} className="table-managers__row">*/}
+                {/*      <td className="table-managers__item">*/}
+                {/*        <Link to={"/managers/:manager"}>Имя Фамилия</Link>*/}
+                {/*      </td>*/}
+                {/*      <td className="table-managers__item link">*/}
+                {/*        <Link to={"/managers/:manager/customers"}>Клиенты</Link>*/}
+                {/*      </td>*/}
+                {/*      <td className="table-managers__item link">*/}
+                {/*        <Link to={"/managers/:manager/deposits"}>Депозиты</Link>*/}
+                {/*      </td>*/}
+                {/*    </tr>*/}
+                {/*  )*/}
+                {/*}*/}
                 </tbody>
               </table>
             </div>

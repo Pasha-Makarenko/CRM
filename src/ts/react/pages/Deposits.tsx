@@ -1,11 +1,13 @@
 import React, { useEffect } from "react"
 import Header from "../components/Header"
-import { useAppSelector } from "../hooks/redux.hook"
 import { useGetDepositsQuery } from "../../store/api/serverApi"
+import { useParams } from "react-router-dom"
 
 const Deposits: React.FC = () => {
-  const user = useAppSelector(state => state.userState)
-  const { data } = useGetDepositsQuery(user.token || "")
+  const params = useParams<{ manager: string }>()
+  const { data, isLoading, error } = useGetDepositsQuery({
+    id: params.manager || ""
+  })
 
   useEffect(() => {
     console.log(data)
@@ -20,10 +22,14 @@ const Deposits: React.FC = () => {
             <h1 className="deposits__title">Депозиты</h1>
             <ul className="deposits__list">
               {
-                new Array(10).fill(null).map((_, i) => <li className="deposits__item deposit" key={i}>
-                  <div className="deposit__sum">1000</div>
-                  <div className="deposit__date">Дата</div>
-                </li>)
+                isLoading ?
+                  "Loading..." :
+                  error ?
+                    "Something went wrong" :
+                    data && data.map((deposit, i) => <li className="deposits__item deposit" key={i}>
+                      <div className="deposit__sum">{deposit.sum}</div>
+                      <div className="deposit__date">{deposit.created}</div>
+                    </li>)
               }
             </ul>
           </section>

@@ -12,6 +12,7 @@ import Managers from "./pages/Managers"
 import Manager from "./pages/Manager"
 import { useAppSelector } from "./hooks/redux.hook"
 import Deposits from "./pages/Deposits"
+import AllCustomers from "./pages/AllCustomers"
 
 const App: React.FC = () => {
   const user = useAppSelector(state => state.userState)
@@ -28,10 +29,10 @@ const App: React.FC = () => {
                 <Route path="/" element={<Navigate to={"/managers"} replace={true}/>}/>
                 <Route path="/managers" exact={true} element={<Managers/>}/>
                 <Route path="/managers/:manager" exact={true} element={<Manager/>}/>
-                <Route path="/managers/:manager/customers" exact={true} element={<Customers all={false}/>}/>
+                <Route path="/managers/:manager/customers" exact={true} element={<Customers/>}/>
                 <Route path="/managers/:manager/customers/:customer" exact={true} element={<Customer/>}/>
                 <Route path="/managers/:manager/deposits" exact={true} element={<Deposits/>}/>
-                <Route path="/customers" exact={true} element={<Customers all={true}/>}/>
+                <Route path="/customers" exact={true} element={<AllCustomers/>}/>
               </React.Fragment> :
               <React.Fragment>
                 <Route path="/" element={<Navigate to={"/customers"} replace={true}/>}/>

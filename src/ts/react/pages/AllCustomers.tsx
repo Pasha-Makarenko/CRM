@@ -1,19 +1,18 @@
 import React, { useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons"
+import { useAppDispatch, useAppSelector } from "../hooks/redux.hook"
+import { modalActions } from "../../store/actions/plugins/modalActions"
+import { Link } from "react-router-dom"
+import { useGetManagersQuery } from "../../store/api/serverApi"
 import Header from "../components/Header"
 import Modal, { ModalTarget } from "../plugins/Modal"
-import { modalActions } from "../../store/actions/plugins/modalActions"
-import { useAppDispatch, useAppSelector } from "../hooks/redux.hook"
-import { useGetClientsQuery } from "../../store/api/serverApi"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons"
 
-const Customers: React.FC = () => {
+const AllCustomers: React.FC = () => {
   const user = useAppSelector(state => state.userState)
   const modal = modalActions(useAppDispatch())
-  const params = useParams<{ manager: string }>()
-  const { data, isLoading, error } = useGetClientsQuery({
-    id: params.manager || ""
+  const { data, isLoading, error } = useGetManagersQuery({
+    token: user.token || ""
   })
 
   const modalDelete = {
@@ -49,7 +48,7 @@ const Customers: React.FC = () => {
               <Modal className="customers__add" idState={"customer-add"} isLoad={false}>
                 <h1 className="customers__add__title">Добавить менеджера</h1>
                 <form className="customers__add form-profile">
-                {/*<form onSubmit={submitHandler} className="customers__add form-profile">*/}
+                  {/*<form onSubmit={submitHandler} className="customers__add form-profile">*/}
                   {/*<label className="form-profile__label">*/}
                   {/*  <input*/}
                   {/*    type="text"*/}
@@ -115,21 +114,28 @@ const Customers: React.FC = () => {
             <div className="customers__table table-customers">
               <table className="table-customers__table">
                 <thead className="table-customers__head">
-                  <tr className="table-customers__row table-customers__row_header">
-                    <th className="table-customers__item">Источник</th>
-                    <th className="table-customers__item">Контакты</th>
-                    <th className="table-customers__item table-customers__item_stage">Стадия</th>
-                    <th className="table-customers__item table-customers__item_delete"></th>
-                  </tr>
+                <tr className="table-customers__row table-customers__row_header">
+                  <th className="table-customers__item">Источник</th>
+                  <th className="table-customers__item table-customers__item_owner">Менеджер</th>
+                  <th className="table-customers__item">Контакты</th>
+                  <th className="table-customers__item table-customers__item_stage">Стадия</th>
+                  <th className="table-customers__item table-customers__item_delete"></th>
+                </tr>
                 </thead>
                 <tbody className="table-customers__body">
-                  {
-                    isLoading ?
-                      "Loading..." :
-                      error ?
-                        "Something went wrong" :
-                        data && data.map((client, i) => <tr key={i} className="table-customers__row">
+                {
+                  isLoading ?
+                    "Loading..." :
+                    error ?
+                    "Something went wrong" :
+                    data && data.map((manager, j) => <React.Fragment key={j}>{
+                      manager.clients.map((client, i) => <tr key={i} className="table-customers__row">
                           <td className="table-customers__item">{i + 1} источник</td>
+                          <td className="table-customers__item table-customers__item_owner">
+                            <Link to={"/managers/:manager"}>
+                              {manager.username}
+                            </Link>
+                          </td>
                           <td className="table-customers__item">
                             <Link to={
                               user.role == "admin" ? `/managers/:manager/customers/:customer` : "/customers/:customer"
@@ -168,8 +174,10 @@ const Customers: React.FC = () => {
                               <FontAwesomeIcon icon={faTrash}/>
                             </ModalTarget>
                           </td>
-                        </tr>)
-                  }
+                        </tr>
+                      )
+                    }</React.Fragment>)
+                }
                 </tbody>
               </table>
             </div>
@@ -180,4 +188,4 @@ const Customers: React.FC = () => {
   )
 }
 
-export default Customers
+export default AllCustomers
