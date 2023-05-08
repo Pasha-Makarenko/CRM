@@ -1,0 +1,15 @@
+.login {
+  @include adaptiveValue("width", 600, 300);
+  @include adaptiveValue("padding", 40, 20);
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 rem(10) rem(60) rgba(226, 236, 249, 0.5);
+  border-radius: rem(30);
+  
+  &__title {
+    text-align: center;
+    @include adaptiveValue("font-size", 30, 20);
+    @include adaptiveValue("margin-bottom", 30, 20);
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,93 @@
+.main_profile {
+  .main__container {
+    @include adaptiveValue("padding-top", 40, 20);
+    @include adaptiveValue("padding-bottom", 40, 20);
+    @include adaptiveValue("padding-left", 70, 35);
+    @include adaptiveValue("padding-right", 70, 35);
+  }
+}
+
+.profile {
+  background-color: #fff;
+  box-shadow: 0 rem(10) rem(60) rgba(226, 236, 249, 0.5);
+  border-radius: rem(30);
+  @include adaptiveValue("padding-top", 25, 20);
+  @include adaptiveValue("padding-bottom", 25, 20);
+  @include adaptiveValue("padding-left", 40, 30);
+  @include adaptiveValue("padding-right", 40, 30);
+  
+  &__title {
+    @include adaptiveValue("margin-bottom", 50, 20);
+    font-size: rem(22);
+    font-weight: 700;
+  }
+  
+  &__info {
+    display: flex;
+    gap: rem(20);
+    @include adaptiveValue("margin-bottom", 50, 20);
+  }
+  
+  &__image {
+    @include adaptiveValue("width", 250, 50);
+    @include adaptiveValue("height", 250, 50);
+  }
+  
+  &__text {
+    display: flex;
+    flex-direction: column;
+    @include adaptiveValue("font-size", 16, 14);
+    
+    &-item {
+      @include adaptiveValue("padding-bottom", 10, 5);
+      @include adaptiveValue("padding-top", 10, 5);
+      border-bottom: rem(1) solid #dcdcdc;
+      
+      &:first-child {
+        padding-top: 0;
+      }
+      
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+    }
+  }
+  
+  &__name {
+    font-weight: 600;
+    @include adaptiveValue("font-size", 18, 16);
+  }
+  
+  &__role {
+    color: $lilac;
+  }
+  
+  &__link {
+    font-weight: 700;
+  }
+}
+
+.modal-profile {
+  &__title {
+    @include adaptiveValue("font-size", 22, 18);
+    margin-bottom: rem(20);
+    font-weight: 500;
+  }
+  
+  &__form {
+    input {
+      @include adaptiveValue("font-size", 16, 14);
+    }
+  }
+  
+  &__list {
+    display: flex;
+    justify-content: space-between;
+    gap: rem(10);
+  }
+  
+  &-target {
+    font-weight: 700;
+  }
+}

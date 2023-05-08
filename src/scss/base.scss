@@ -1,0 +1,124 @@
+// Base styles
+// Form
+@import "./base/form.scss";
+
+// Plugins styles
+// Modal
+@import "./plugins/modal.scss";
+
+// Select
+@import "./plugins/select.scss";
+
+// Spoiler
+@import "./plugins/spoiler.scss";
+
+// Tabs
+@import "./plugins/tabs.scss";
+
+// Rating
+@import "./plugins/rating.scss";
+
+// Show more
+@import "./plugins/showmore.scss";
+
+// Burger
+@import "./plugins/burger.scss";
+
+// Counter
+@import "./plugins/counter.scss";
+
+// Search
+@import "./plugins/search.scss";
+
+// Responsive images (IBG)
+[class*="-ibg"] {
+	position: relative;
+	img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		object-fit: cover;
+	}
+}
+[class*="-ibg_contain"] {
+	img {
+		object-fit: contain;
+	}
+}
+
+// List counter
+%listCounter {
+	list-style-type: none;
+	counter-reset: item;
+	li {
+		position: relative;
+		&:before {
+			counter-increment: item;
+			content: counter(item);
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+}
+
+// Responsive video
+%responsiveVideo {
+	position: relative;
+	overflow: hidden;
+	height: 0;
+	padding-bottom: 56.25%;
+	video,
+	iframe,
+	object,
+	embed {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+// background video
+%videoBackground {
+	video,
+	iframe,
+	object,
+	embed {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		min-width: 100%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		z-index: -100;
+		transform: translateX(-50%) translateY(-50%);
+		background-size: cover;
+	}
+}
+
+// Gray scale
+%grayfilter {
+	transition: all 0.3s ease 0s;
+	filter: grayscale(1);
+	@media (any-hover: hover) {
+		&:hover {
+			filter: grayscale(0);
+		}
+	}
+}
+// Smooth scroll
+%smoothscroll {
+	-webkit-overflow-scrolling: touch;
+}
+
+// Hide scroll
+%hidescroll {
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}

@@ -1,0 +1,57 @@
+.main_deposits {
+  .main__container {
+    @include adaptiveValue("padding-top", 40, 20);
+    @include adaptiveValue("padding-bottom", 40, 20);
+    @include adaptiveValue("padding-left", 70, 35);
+    @include adaptiveValue("padding-right", 70, 35);
+  }
+}
+
+.deposits {
+  background-color: #fff;
+  box-shadow: 0 rem(10) rem(60) rgba(226, 236, 249, 0.5);
+  border-radius: rem(30);
+  @include adaptiveValue("padding-top", 25, 20);
+  @include adaptiveValue("padding-bottom", 25, 20);
+  @include adaptiveValue("padding-left", 40, 30);
+  @include adaptiveValue("padding-right", 40, 30);
+  
+  &__title {
+    @include adaptiveValue("margin-bottom", 50, 20);
+    font-size: rem(22);
+    font-weight: 700;
+  }
+}
+
+.deposit {
+  position: relative;
+  padding: rem(20);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: rem(1) solid #dcdcdc;
+  
+  &:last-child {
+    border-bottom: 0;
+  }
+  
+  &__date {
+    color: $lilac;
+    font-weight: 700;
+  }
+  
+  &:after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: rem(4);
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  &:hover:after {
+    background-color: $violet;
+  }
+}

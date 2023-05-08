@@ -1,0 +1,29 @@
+.showmore {
+	display: inline;
+
+	&-placeholder {
+		display: inline;
+		cursor: pointer;
+	}
+
+	&-dropdown {
+		display: inline;
+		font-size: 0;
+	}
+
+	&.open {
+		.showmore-dropdown {
+			font-size: inherit;
+		}
+	}
+
+	&.media {
+		.showmore-dropdown {
+			font-size: inherit;
+		}
+
+		.showmore-placeholder {
+			display: none;
+		}
+	}
+}

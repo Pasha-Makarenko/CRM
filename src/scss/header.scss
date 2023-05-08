@@ -1,0 +1,105 @@
+// Header
+.header {
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 rem(10) rem(60) rgba(226, 236, 249, 0.5);
+  
+  &__container {
+    @include adaptiveValue("padding", 30, 15);
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    position: fixed;
+    
+    @media (max-width: $mobile) {
+      flex-direction: row;
+      align-items: center;
+      position: static;
+    }
+  }
+  
+  &__title {
+    display: flex;
+    gap: rem(10);
+    @include adaptiveValue("font-size", 35, 25);
+    @include adaptiveValue("margin-bottom", 55, 30);
+    font-weight: 500;
+    padding: 0 rem(10);
+    user-select: none;
+    
+    @media (max-width: $mobile) {
+      padding: 0;
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }
+  }
+  
+  &__burger-target {
+    font-size: rem(20);
+    z-index: 3;
+  }
+}
+
+.nav-header {
+  flex: 1 1 auto;
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    @include adaptiveValue("gap", 20, 15);
+  }
+  
+  &__item {
+    padding: 0;
+  }
+  
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: rem(7);
+    padding: rem(10);
+  }
+}
+
+.profile-header {
+  &__link {
+    display: flex;
+    gap: rem(10);
+    align-items: center;
+  }
+  
+  &__content {
+    letter-spacing: 0.01em;
+  }
+  
+  &__name {
+    font-size: rem(14);
+    margin-bottom: rem(5);
+    font-weight: 500;
+    color: #000;
+  }
+  
+  &__role {
+    font-size: rem(12);
+    color: #757575;
+  }
+}
+
+.burger-header {
+  width: rem(400);
+  left: auto;
+  padding-top: rem(50);
+  background-color: #fff;
+  transform: translateX(100%);
+  z-index: 2;
+  
+  &.open {
+    transform: translateX(0);
+    box-shadow: 0 rem(-10) rem(60) rgba(226, 236, 249, 0.5);
+  }
+  
+  @media (max-width: $mobileSmall) {
+    left: 0;
+    width: auto;
+  }
+}

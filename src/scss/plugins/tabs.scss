@@ -1,0 +1,29 @@
+.tabs {
+	&:root {
+		--count: 0;
+		--tab: 0;
+	}
+
+	&-input {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&-input-item {
+		flex: 0 0 calc(100% / var(--count));
+	}
+
+	&-content {
+		width: 100%;
+		display: flex;
+		overflow: hidden;
+	}
+
+	&-content-item {
+		flex: 0 0 100%;
+		height: fit-content;
+		overflow: hidden;
+		transform: translateX(calc(-100% * var(--tab)));
+	}
+}

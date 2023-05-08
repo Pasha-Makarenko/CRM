@@ -1,0 +1,167 @@
+@use "sass:math";
+
+// import mixins ===========================================================================================================================================================================================================================================================================
+@import "src/scss/base/mixins";
+
+// Import font (&display=swap) ===========================================================================================================================================================================================================================================================================
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+
+// Local fonts
+// @import "fonts/fonts";
+
+// Icon fonts ==============================================================================================================================================================================================================================================================================
+// @import "fonts/icons";
+
+// Default font ==============================================================================================================================================================================================================================================================================
+$fontFamily: "Comfortaa";
+$fontSize: rem(16);
+
+// Main colors
+$mainColor: #000; // Font color
+$lilac: #9197B3;
+$violet: #5932EA;
+
+// Options ===============================================================================================================================================================================================================================================================================================
+// Min page width
+$minWidth: 320;
+// Layout width
+$maxWidth: 1920;
+// Max width container (if 0, without container)
+$maxWidthContainer: 0;
+// Container padding (left + right)
+$containerPadding: 40;
+
+// Container width
+$containerWidth: $maxWidthContainer + $containerPadding;
+
+// Breakpoints
+$pc: em($containerWidth); // PC, notebook, some tablets in horizontal position
+$tablet: em(991.98); // Tablets, some mobiles in horizontal position
+$mobile: em(767.98); // Mobiles L
+$mobileSmall: em(479.98); // Mobiles S
+
+// Adaptive types:
+// 1 = responsive
+// 2 = breakpoints
+$responsiveType: 1;
+
+// Z-index list
+// Main list
+$z-index-main-list: (
+  "header",
+  "main",
+  "footer"
+);
+// Custom list
+$z-index-custom-list: (
+  "value"
+);
+
+// Обнуление и общие параметры ============================================================================================================================================================================================== =============================================================================================== ===============================================================================================
+@import "src/scss/base/null";
+
+body.locked {
+  overflow: hidden;
+  touch-action: none;
+}
+
+body::-webkit-scrollbar {
+  width: rem(10);
+  background-color: #F2EFFF;
+  
+  &-thumb {
+    background-color: $violet;
+    border-radius: rem(7);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: #7a5ce8;
+    }
+  }
+}
+
+// Оболочка ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background-color: #F2EFFF;
+  font-family: $fontFamily, sans-serif;
+  
+  @media (max-width: $mobile) {
+    flex-direction: column;
+  }
+  
+  > main {
+    flex: 1 1 auto;
+    @include adaptiveValue("margin-top", 30, 15);
+    @include adaptiveValue("margin-bottom", 30, 15);
+  }
+  
+  // Slider swiper fix
+  > * {
+    min-width: 0;
+  }
+}
+
+// Containers
+@if ($responsiveType == 1) {
+  // Responsive
+  [class*="__container"] {
+    height: 100%;
+    
+    @if ($maxWidthContainer > 0) {
+      max-width: rem($maxWidthContainer);
+      box-sizing: content-box;
+      margin: 0 auto;
+    }
+    @if ($containerPadding > 0) {
+      padding: 0 rem(math.div($containerPadding, 2));
+    }
+  }
+} @else {
+  // Breakpoints
+  [class*="__container"] {
+    margin: 0 auto;
+    height: 100%;
+    @if ($maxWidthContainer > 0) {
+      max-width: rem($maxWidthContainer);
+      box-sizing: content-box;
+    } @else {
+      @if ($containerPadding > 0) {
+        padding: 0 rem(math.div($containerPadding, 2));
+      }
+    }
+    @media (max-width: $pc) {
+      max-width: rem(970);
+    }
+    @media (max-width: $tablet) {
+      max-width: rem(750);
+    }
+    @media (max-width: $mobile) {
+      max-width: none;
+      @if ($containerPadding > 0 and $maxWidthContainer > 0) {
+        padding: 0 rem(math.div($containerPadding, 2));
+      }
+    }
+  }
+}
+
+// Base styles
+@import "base";
+
+// Modules styles
+@import "common";
+
+// Block styles
+@import "header";
+
+// Pages
+@import "pages/home";
+@import "pages/login";
+@import "pages/profile";
+@import "pages/managers";
+@import "pages/customers";
+@import "pages/customer";
+@import "pages/deposits";

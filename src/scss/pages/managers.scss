@@ -1,0 +1,117 @@
+.main_managers {
+  .main__container {
+    @include adaptiveValue("padding-top", 40, 20);
+    @include adaptiveValue("padding-bottom", 40, 20);
+    @include adaptiveValue("padding-left", 70, 35);
+    @include adaptiveValue("padding-right", 70, 35);
+  }
+}
+
+.managers {
+  background-color: #fff;
+  box-shadow: 0 rem(10) rem(60) rgba(226, 236, 249, 0.5);
+  border-radius: rem(30);
+  @include adaptiveValue("padding-top", 25, 20);
+  @include adaptiveValue("padding-bottom", 25, 20);
+  @include adaptiveValue("padding-left", 40, 30);
+  @include adaptiveValue("padding-right", 40, 30);
+  
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(20);
+  }
+  
+  &__title {
+    font-size: rem(22);
+    font-weight: 600;
+  }
+  
+  &__add {
+    &__title {
+      @include adaptiveValue("font-size", 22, 18);
+      margin-bottom: rem(20);
+      font-weight: 500;
+    }
+    
+    &-target {
+      width: rem(40);
+      height: rem(40);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: rem(22);
+      border-radius: 50%;
+    }
+  }
+}
+
+.table-managers {
+  min-width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  
+  &::-webkit-scrollbar {
+    height: rem(7);
+    background-color: #fff;
+    
+    &-thumb {
+      background-color: $violet;
+      border-radius: rem(7);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #7a5ce8;
+      }
+    }
+  }
+  
+  &__table {
+    min-width: 100%;
+    border-collapse: collapse;
+  }
+  
+  &__row {
+    color: #313131;
+    white-space: nowrap;
+    
+    &_header {
+      color: #acacac;
+      font-size: rem(14);
+      
+      > .table-managers__item {
+        font-weight: 400;
+      }
+    }
+    
+    &:not(&_header) {
+      position: relative;
+      border-top: rem(1) solid #dcdcdc;
+      
+      &:after {
+        position: absolute;
+        display: block;
+        content: "";
+        width: rem(4);
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: #fff;
+        transition: all 0.3s ease;
+      }
+      
+      &:hover:after {
+        background-color: $violet;
+      }
+    }
+  }
+  
+  &__item {
+    @include adaptiveValue("padding-top", 20, 10);
+    @include adaptiveValue("padding-bottom", 20, 10);
+    @include adaptiveValue("padding-left", 30, 15);
+    @include adaptiveValue("padding-right", 30, 15);
+    text-align: left;
+  }
+}

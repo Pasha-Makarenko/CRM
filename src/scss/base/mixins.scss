@@ -1,0 +1,126 @@
+@use "sass:math";
+
+// Import font
+@mixin font($font_name, $file_name, $weight, $style) {
+	@font-face {
+		font-family: $font_name;
+		font-display: swap;
+		src: url("../fonts/#{$file_name}.woff2") format("woff2"), url("../fonts/#{$file_name}.woff") format("woff");
+		font-weight: #{$weight};
+		font-style: #{$style};
+	}
+}
+//Percent
+@function percent($px, $from) {
+	$result: math.div($px, $from) * 100%;
+	@return $result;
+}
+//REM
+@function rem($px) {
+	$result: math.div($px, 16) + rem;
+	@return $result;
+}
+//EM
+@function em($px, $current: 16) {
+	$result: math.div($px, $current) + em;
+	@return $result;
+}
+
+// Currency
+@mixin currency($sym) {
+	&::after {
+		content: "#{$sym}";
+	}
+}
+
+// Adaptive value (clamp)
+@mixin adaptiveValue($property, $startSize, $minSize, $widthFrom: $containerWidth, $widthTo: $minWidth, $keepSize: 0) {
+	// For calc();
+	$addSize: math.div($startSize - $minSize, 16);
+
+	@if ($widthFrom == $containerWidth and $maxWidthContainer == 0) {
+		$widthFrom: $maxWidth;
+	}
+	//@if ($minSize <= 0) {
+	//	$minSize: 0.0001;
+	//}
+	//@if ($startSize <= 0) {
+	//	$startSize: 0.0001;
+	//}
+
+	// Breakpoints in EM
+	$widthFromMedia: em($widthFrom);
+	$widthToMedia: em($widthTo);
+
+	// Formula float value
+	// Source: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+	$slope: math.div(($startSize - $minSize), ($widthFrom - $widthTo));
+	$yIntersection: -$widthTo * $slope + $minSize;
+	$flyValue: #{rem($yIntersection)}" + " #{$slope * 100}vw;
+
+	// Get value
+	$propertyValue: #{"clamp(" rem($minSize) "," $flyValue "," rem($startSize) ")"};
+	// If negative value
+	@if ($minSize > $startSize) {
+		$propertyValue: #{"clamp(" rem($startSize) "," $flyValue "," rem($minSize) ")"};
+	}
+
+	@if $widthFrom == $containerWidth or $widthFrom == $maxWidth or $keepSize == 1 or $keepSize == 2 {
+		@media (min-width: $widthFromMedia) {
+			#{$property}: rem($startSize);
+		}
+	}
+	@media (min-width: $widthToMedia) and (max-width: $widthFromMedia) {
+		// If support clamp();
+		@supports (#{$property}: $propertyValue) {
+			#{$property}: $propertyValue;
+		}
+		// If not support clamp();
+		@supports not (#{$property}: $propertyValue) {
+			#{$property}: calc(#{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{math.div($widthFrom, 16) - math.div($widthTo, 16)});
+		}
+	}
+	@if $widthTo == $minWidth or $keepSize == 1 or $keepSize == 3 {
+		@media (max-width: $widthToMedia) {
+			#{$property}: rem($minSize);
+		}
+	}
+}
+
+// Z-index
+@function z($name, $list-name: $z-index-main-list) {
+	@if index($list: $list-name, $value: $name) {
+		@return (length($list: $list-name) - index($list: $list-name, $value: $name)) + 1;
+	} @else {
+		@warn "Элемента #{$name} нет в списке #{$list-name}!";
+		@return null;
+	}
+};
+
+// Responsive ratio
+@mixin responsive-ratio($width: 0, $heigth: 0) {
+	padding-bottom: calc(math.div($heigth, $width) * 100%);
+}
+
+// Centerer
+@mixin centerer($horizontal: true, $vertical: true) {
+	position: absolute;
+	@if ($horizontal and $vertical) {
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	} @else if ($horizontal) {
+	  left: 50%;
+	  transform: translate(-50%, 0);
+	} @else if ($vertical) {
+	  top: 50%;
+	  transform: translate(0, -50%);
+	}
+}
+
+// Grids
+@mixin gridCards($type: fit, $min: rem(280), $max: 1fr, $gap: rem(30)) {
+	display: grid;
+	gap: $gap;
+	grid-template-columns: repeat(auto-#{$type}, minmax($min, $max));
+}

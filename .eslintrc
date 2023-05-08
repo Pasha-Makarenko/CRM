@@ -1,0 +1,74 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime"
+  ],
+  "plugins": ["react", "jsx-a11y"],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "requireConfigFile": false
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    },
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "fragment": "Fragment",
+      "version": "detect",
+      "flowVersion": "0.53"
+    },
+    "propWrapperFunctions": [
+      "forbidExtraProps",
+      {"property": "freeze", "object": "Object"},
+      {"property": "myFavoriteWrapper"},
+      {"property": "forbidExtraProps", "exact": true}
+    ],
+    "componentWrapperFunctions": [
+      "observer",
+      {"property": "styled"},
+      {"property": "observer", "object": "Mobx"},
+      {"property": "observer", "object": "<pragma>"}
+    ],
+    "formComponents": [
+      "CustomForm",
+      {"name": "Form", "formAttribute": "endpoint"}
+    ],
+    "linkComponents": [
+      "Hyperlink",
+      {"name": "Link", "linkAttribute": "to"}
+    ]
+  },
+  "globals": {
+    "document": "readonly",
+    "navigator": "readonly",
+    "window": "readonly",
+    "JSX": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-undef": "off",
+    "no-alert": "warn",
+    "no-var": "warn",
+    "no-compare-neg-zero": "warn",
+    "getter-return": "warn"
+  },
+  "ignorePatterns": [ "dist/*" ]
+}
