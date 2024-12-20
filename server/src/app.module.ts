@@ -3,11 +3,12 @@ import { ConfigModule, ConfigService } from "@nestjs/config"
 import { SequelizeModule } from "@nestjs/sequelize"
 import { getSequelizeConfig } from "./config/database.config"
 import { UsersModule } from "./users/users.module"
+import { RolesModule } from "./roles/roles.module"
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
+      envFilePath: `.${ process.env.NODE_ENV }.env`,
       isGlobal: true
     }),
     SequelizeModule.forRootAsync({
@@ -15,7 +16,8 @@ import { UsersModule } from "./users/users.module"
       useFactory: getSequelizeConfig,
       inject: [ ConfigService ]
     }),
-    UsersModule
+    UsersModule,
+    RolesModule
   ]
 })
 export class AppModule {
