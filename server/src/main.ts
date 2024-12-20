@@ -10,7 +10,6 @@ async function bootstrap() {
     .setTitle("CRM")
     .setDescription("Server side CRM application")
     .setVersion("1.0.0")
-    .addTag("CRM")
     .build()
 
   const document = SwaggerModule.createDocument(app, config)
