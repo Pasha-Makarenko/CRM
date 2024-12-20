@@ -6,7 +6,10 @@ import { UsersModule } from "./users/users.module"
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: `.${process.env.NODE_ENV}.env`,
+      isGlobal: true
+    }),
     SequelizeModule.forRootAsync({
       imports: [ ConfigModule ],
       useFactory: getSequelizeConfig,
