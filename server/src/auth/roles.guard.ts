@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common"
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common"
 import { Observable } from "rxjs"
 import { JwtService } from "@nestjs/jwt"
 import { Reflector } from "@nestjs/core"
@@ -24,7 +24,7 @@ export class RolesGuard implements CanActivate {
       const [ bearer, token ] = request.headers.authorization.split(" ")
 
       if (bearer !== "Bearer" || !token) {
-        throw new UnauthorizedException("Unauthorized")
+        throw new ForbiddenException("Forbidden")
       }
 
       const user: User = this.jwtService.verify(token)
@@ -32,7 +32,7 @@ export class RolesGuard implements CanActivate {
 
       return user.roles.some(role => requiredRoles.includes(role.value))
     } catch (error) {
-      throw new UnauthorizedException("Unauthorized")
+      throw new ForbiddenException("Forbidden")
     }
   }
 }
