@@ -5,7 +5,8 @@ import { InjectModel } from "@nestjs/sequelize"
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepository: typeof User) {}
+  constructor(@InjectModel(User) private userRepository: typeof User) {
+  }
 
   async createUser(dto: CreateUserDto) {
     return await this.userRepository.create(dto)
