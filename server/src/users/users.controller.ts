@@ -16,7 +16,6 @@ export class UsersController {
 
   @ApiOperation({ summary: "Create user" })
   @ApiResponse({ status: 200, type: User })
-  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() dto: CreateUserDto) {
     return this.usersService.createUser(dto)
