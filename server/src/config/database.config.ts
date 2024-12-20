@@ -3,11 +3,11 @@ import { ConfigService } from "@nestjs/config"
 
 export const getSequelizeConfig = (configService: ConfigService): SequelizeModuleOptions => ({
   dialect: "postgres",
-  host: configService.get<string>("DB_HOST"),
-  port: configService.get<number>("DB_PORT"),
-  username: configService.get<string>("DB_USER"),
-  password: configService.get<string>("DB_PASS"),
-  database: configService.get<string>("DB_NAME"),
+  host: configService.get<string>("POSTGRES_HOST"),
+  port: configService.get<number>("POSTGRES_PORT"),
+  username: configService.get<string>("POSTGRES_USER"),
+  password: configService.get<string>("POSTGRES_PASS"),
+  database: configService.get<string>("POSTGRES_DB"),
   autoLoadModels: true,
   synchronize: true // For development only
 })
