@@ -1,6 +1,7 @@
 import { SequelizeModuleOptions } from "@nestjs/sequelize"
 import { ConfigService } from "@nestjs/config"
 import { User } from "../users/users.model"
+import { Role } from "../roles/roles.model"
 
 export const getSequelizeConfig = (configService: ConfigService): SequelizeModuleOptions => ({
   dialect: "postgres",
@@ -11,5 +12,5 @@ export const getSequelizeConfig = (configService: ConfigService): SequelizeModul
   database: configService.get<string>("POSTGRES_DB"),
   autoLoadModels: true,
   synchronize: process.env.NODE_ENV === "development",
-  models: [ User ]
+  models: [ User, Role ]
 })
