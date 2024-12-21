@@ -8,6 +8,7 @@ import { OrdersService } from "../orders/orders.service"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
+import { Roles } from "../roles/roles.model"
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,7 @@ export class UsersService {
 
   async createUser(dto: CreateUserDto) {
     const user = await this.userRepository.create(dto)
-    const role = await this.rolesService.getRoleByValue("USER")
+    const role = await this.rolesService.getRoleByValue(Roles.USER)
 
     await user.$set("roles", [ role.id ])
     user.roles = [ role ]
@@ -31,10 +32,7 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string) {
-    return await this.userRepository.findOne({
-      where: { email },
-      include: { all: true }
-    })
+    return await this.userRepository.findOne({ where: { email } })
   }
 
   async addRole(dto: AddRoleDto) {

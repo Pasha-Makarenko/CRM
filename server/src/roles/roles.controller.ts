@@ -21,6 +21,13 @@ export class RolesController {
     return this.rolesService.createRole(dto)
   }
 
+  @ApiOperation({ summary: "Get all roles" })
+  @ApiResponse({ status: 200, type: CreateRoleDto })
+  @Get()
+  getAll() {
+    return this.rolesService.getAllRoles()
+  }
+
   @ApiOperation({ summary: "Get role by value" })
   @ApiResponse({ status: 200, type: CreateRoleDto })
   @Get("/:value")
