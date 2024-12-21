@@ -18,6 +18,8 @@ export class UsersController {
 
   @ApiOperation({ summary: "Create user" })
   @ApiResponse({ status: 200, type: User })
+  @RoleAuth(Roles.ADMIN)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateUserDto) {
     return this.usersService.createUser(dto)
@@ -25,6 +27,8 @@ export class UsersController {
 
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({ status: 200, type: [ User ] })
+  @RoleAuth(Roles.ADMIN)
+  @UseGuards(RolesGuard)
   @Get()
   getAll() {
     return this.usersService.getAllUsers()
