@@ -4,11 +4,14 @@ import { CreateUserDto } from "./dto/create-user.dto"
 import { InjectModel } from "@nestjs/sequelize"
 import { RolesService } from "../roles/roles.service"
 import { AddRoleDto } from "./dto/add-role.dto"
+import { OrdersService } from "../orders/orders.service"
+import { AddOrderDto } from "./dto/add-order.dto"
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User) private userRepository: typeof User,
-              private rolesService: RolesService) {
+              private rolesService: RolesService,
+              private ordersService: OrdersService) {
   }
 
   async createUser(dto: CreateUserDto) {
@@ -42,5 +45,29 @@ export class UsersService {
     }
 
     throw new NotFoundException("User or role not found")
+  }
+
+  async addOrder(dto: AddOrderDto) {
+    const user = await this.userRepository.findByPk(dto.userId)
+    const order = await this.ordersService.getOrdersById(dto.orderId)
+
+    if (user && order) {
+      await user.$add("order", order.id)
+      return user
+    }
+
+    throw new NotFoundException("User or order not found")
+  }
+
+  async removeOrder(dto: AddOrderDto) {
+    const user = await this.userRepository.findByPk(dto.userId)
+    const order = await this.ordersService.getOrdersById(dto.orderId)
+
+    if (user && order) {
+      await user.$remove("order", order.id)
+      return user
+    }
+
+    throw new NotFoundException("User or order not found")
   }
 }
