@@ -6,13 +6,11 @@ import { UsersModule } from "./users/users.module"
 import { RolesModule } from "./roles/roles.module"
 import { AuthModule } from "./auth/auth.module"
 import { OrdersModule } from "./orders/orders.module"
+import { config } from "./config/config"
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.${ process.env.NODE_ENV }.env`,
-      isGlobal: true
-    }),
+    ConfigModule.forRoot(config),
     SequelizeModule.forRootAsync({
       imports: [ ConfigModule ],
       useFactory: getSequelizeConfig,
