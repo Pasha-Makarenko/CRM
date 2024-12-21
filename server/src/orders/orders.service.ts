@@ -1,7 +1,8 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, NotFoundException } from "@nestjs/common"
 import { CreateOrderDto } from "./dto/create-order.dto"
 import { InjectModel } from "@nestjs/sequelize"
 import { Order, OrderStatus } from "./orders.model"
+import { UpdateOrderDto } from "./dto/update-order.dto"
 
 @Injectable()
 export class OrdersService {
@@ -24,9 +25,19 @@ export class OrdersService {
     return await this.orderRepository.findAll()
   }
 
-  async changeOrderStatus(id: number, status: OrderStatus) {
-    const order = await this.orderRepository.findByPk(id)
-    order.status = status
-    return await order.save()
+  async updateOrder(dto: UpdateOrderDto) {
+    const order = await this.orderRepository.findByPk(dto.id)
+
+    if (order) {
+      for (const key in dto) {
+        if (key !== "id" && dto[key] && dto[key] !== order[key]) {
+          await order.$set(key as keyof Order, dto[key])
+        }
+      }
+
+      return order
+    }
+
+    throw new NotFoundException("Order not found")
   }
 }

@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common"
+import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common"
 import { OrdersService } from "./orders.service"
 import { ApiOperation, ApiResponse } from "@nestjs/swagger"
 import { CreateOrderDto } from "./dto/create-order.dto"
+import { UpdateOrderDto } from "./dto/update-order.dto"
 
 @Controller("orders")
 export class OrdersController {
@@ -38,8 +39,8 @@ export class OrdersController {
 
   @ApiOperation({ summary: "Change order status" })
   @ApiResponse({ status: 200, type: CreateOrderDto })
-  @Post("/changeStatus")
-  changeStatus(@Body() dto: CreateOrderDto) {
-    return this.ordersService.changeOrderStatus(dto.id, dto.status)
+  @Put()
+  update(@Body() dto: UpdateOrderDto) {
+    return this.ordersService.updateOrder(dto)
   }
 }
