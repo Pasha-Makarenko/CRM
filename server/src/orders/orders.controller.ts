@@ -35,4 +35,11 @@ export class OrdersController {
   getAllByUserID(@Param("id") id: number) {
     return this.ordersService.getAllOrdersByUserId(id)
   }
+
+  @ApiOperation({ summary: "Change order status" })
+  @ApiResponse({ status: 200, type: CreateOrderDto })
+  @Post("/changeStatus")
+  changeStatus(@Body() dto: CreateOrderDto) {
+    return this.ordersService.changeOrderStatus(dto.id, dto.status)
+  }
 }

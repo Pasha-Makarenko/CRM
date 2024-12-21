@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common"
 import { CreateOrderDto } from "./dto/create-order.dto"
 import { InjectModel } from "@nestjs/sequelize"
-import { Order } from "./orders.model"
+import { Order, OrderStatus } from "./orders.model"
 
 @Injectable()
 export class OrdersService {
@@ -22,5 +22,11 @@ export class OrdersService {
 
   async getAllOrders() {
     return await this.orderRepository.findAll()
+  }
+
+  async changeOrderStatus(id: number, status: OrderStatus) {
+    const order = await this.orderRepository.findByPk(id)
+    order.status = status
+    return await order.save()
   }
 }
