@@ -6,6 +6,8 @@ import { RolesService } from "../roles/roles.service"
 import { AddRoleDto } from "./dto/add-role.dto"
 import { OrdersService } from "../orders/orders.service"
 import { AddOrderDto } from "./dto/add-order.dto"
+import { RemoveOrderDto } from "./dto/remove-order.dto"
+import { Order } from "../orders/orders.model"
 
 @Injectable()
 export class UsersService {
@@ -59,13 +61,16 @@ export class UsersService {
     throw new NotFoundException("User or order not found")
   }
 
-  async removeOrder(dto: AddOrderDto) {
-    const user = await this.userRepository.findByPk(dto.userId)
+  async removeOrder(dto: RemoveOrderDto) {
+    const user = await this.userRepository.findByPk(dto.userId, {
+      include: [ { model: Order } ]
+    })
     const order = await this.ordersService.getOrdersById(dto.orderId)
 
     if (user && order) {
-      await user.$remove("order", order.id)
-      return user
+      await order.$remove("user", user.id)
+      user.orders = user.orders.filter(o => o.id !== order.id)
+      return await user.save()
     }
 
     throw new NotFoundException("User or order not found")

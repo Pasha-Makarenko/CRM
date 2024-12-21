@@ -8,6 +8,7 @@ import { RolesGuard } from "../auth/roles.guard"
 import { AddRoleDto } from "./dto/add-role.dto"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { Roles } from "../roles/roles.model"
+import { RemoveOrderDto } from "./dto/remove-order.dto"
 
 @ApiTags("Users")
 @Controller("users")
@@ -52,7 +53,7 @@ export class UsersController {
   @RoleAuth(Roles.ADMIN, Roles.MANAGER)
   @UseGuards(RolesGuard)
   @Put("/order")
-  removeOrder(@Body() dto: AddOrderDto) {
+  removeOrder(@Body() dto: RemoveOrderDto) {
     return this.usersService.removeOrder(dto)
   }
 }
