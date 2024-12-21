@@ -9,6 +9,6 @@ export class CreateUserDto {
 
   @ApiProperty({ example: "12345678Aa", description: "User password" })
   @IsString({ message: "Must be a string" })
-  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, { message: "Password is too weak" })
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/, { message: "Password is too weak" })
   readonly password: string
 }
