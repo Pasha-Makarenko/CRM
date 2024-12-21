@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, UseGuards, UsePipes } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UsersService } from "./users.service"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
@@ -6,8 +6,8 @@ import { User } from "./users.model"
 import { RoleAuth } from "../auth/role-auth.decorator"
 import { RolesGuard } from "../auth/roles.guard"
 import { AddRoleDto } from "./dto/add-role.dto"
-import { ValidationPipe } from "../pipes/validation.pipe"
 import { AddOrderDto } from "./dto/add-order.dto"
+import { Roles } from "../roles/roles.model"
 
 @ApiTags("Users")
 @Controller("users")
@@ -31,7 +31,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Add role" })
   @ApiResponse({ status: 200 })
-  @RoleAuth("ADMIN")
+  @RoleAuth(Roles.ADMIN)
   @UseGuards(RolesGuard)
   @Post("/role")
   addRole(@Body() dto: AddRoleDto) {
@@ -40,7 +40,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Add order" })
   @ApiResponse({ status: 200, type: User })
-  @RoleAuth("ADMIN", "MANAGER")
+  @RoleAuth(Roles.ADMIN, Roles.MANAGER)
   @UseGuards(RolesGuard)
   @Post("/order")
   addOrder(@Body() dto: AddOrderDto) {
@@ -49,7 +49,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Delete order" })
   @ApiResponse({ status: 200, type: User })
-  @RoleAuth("ADMIN", "MANAGER")
+  @RoleAuth(Roles.ADMIN, Roles.MANAGER)
   @UseGuards(RolesGuard)
   @Delete("/order")
   removeOrder(@Body() dto: AddOrderDto) {
