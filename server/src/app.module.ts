@@ -5,6 +5,7 @@ import { getSequelizeConfig } from "./config/database.config"
 import { UsersModule } from "./users/users.module"
 import { RolesModule } from "./roles/roles.module"
 import { AuthModule } from "./auth/auth.module"
+import { OrdersModule } from "./orders/orders.module"
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { AuthModule } from "./auth/auth.module"
     }),
     UsersModule,
     RolesModule,
-    AuthModule
+    AuthModule,
+    OrdersModule
   ]
 })
 export class AppModule {
