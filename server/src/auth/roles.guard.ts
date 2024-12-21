@@ -1,9 +1,10 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common"
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common"
 import { Observable } from "rxjs"
 import { JwtService } from "@nestjs/jwt"
 import { Reflector } from "@nestjs/core"
 import { ROLES_KEY } from "./role-auth.decorator"
 import { User } from "../users/users.model"
+import { Roles } from "../roles/roles.model"
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -13,7 +14,7 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     try {
-      const requiredRoles = this.reflector.get<string[]>(ROLES_KEY, context.getHandler())
+      const requiredRoles = this.reflector.get<Roles[]>(ROLES_KEY, context.getHandler())
 
       if (!requiredRoles) {
         return true

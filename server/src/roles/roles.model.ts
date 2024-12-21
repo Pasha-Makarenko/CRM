@@ -3,6 +3,12 @@ import { ApiProperty } from "@nestjs/swagger"
 import { User } from "../users/users.model"
 import { UserRoles } from "./user-roles.model"
 
+export enum Roles {
+  ADMIN = "ADMIN",
+  MANAGER = "MANAGER",
+  USER = "USER"
+}
+
 interface RoleCreationAttributes {
   value: string
 }
@@ -14,8 +20,8 @@ export class Role extends Model<Role, RoleCreationAttributes> {
   id: number
 
   @ApiProperty({ example: "ADMIN", description: "Role value" })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  value: string
+  @Column({ type: DataType.ENUM(...Object.values(Roles)), unique: true, allowNull: false })
+  value: Roles
 
   @BelongsToMany(() => User, () => UserRoles)
   users: Array<User>
