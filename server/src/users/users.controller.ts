@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from "@nestjs/common"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UsersService } from "./users.service"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
@@ -51,7 +51,7 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @RoleAuth(Roles.ADMIN, Roles.MANAGER)
   @UseGuards(RolesGuard)
-  @Delete("/order")
+  @Put("/order")
   removeOrder(@Body() dto: AddOrderDto) {
     return this.usersService.removeOrder(dto)
   }
