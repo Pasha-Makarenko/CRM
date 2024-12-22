@@ -48,7 +48,12 @@ export class UsersService {
   }
 
   async getUserRoles(userId: number) {
-    const user = await this.userRepository.findByPk(userId, { include: [ { model: Role } ] })
+    const user = await this.userRepository.findByPk(userId, {
+      include: [ {
+        model: Role,
+        attributes: [ "id", "value" ]
+      } ]
+    })
     return user.roles
   }
 

@@ -14,7 +14,16 @@ export class AuthService {
   }
 
   async login(userDto: CreateUserDto) {
-    return await this.validateUser(userDto)
+    const user = await this.validateUser(userDto)
+
+    if (!user) {
+      throw new BadRequestException("Invalid credentials")
+    }
+
+    const roles = await this.usersService.getUserRoles(user.id)
+    user.roles = roles
+
+    return this.generateToken(user)
   }
 
   async register(userDto: CreateUserDto) {
@@ -53,7 +62,7 @@ export class AuthService {
     const passwordEquals = await bcrypt.compare(userDto.password, user.password)
 
     if (passwordEquals) {
-      return this.generateToken(user)
+      return user
     }
 
     throw new BadRequestException("Invalid credentials")
