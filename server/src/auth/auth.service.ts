@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common"
 import { CreateUserDto } from "../users/dto/create-user.dto"
 import { UsersService } from "../users/users.service"
 import { JwtService } from "@nestjs/jwt"
@@ -31,7 +31,13 @@ export class AuthService {
   }
 
   private async generateToken(user: User) {
-    const payload = { email: user.email, id: user.id, roles: user.roles }
+    const payload = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      roles: user.roles
+    }
+
     return {
       token: this.jwtService.sign(payload)
     }
@@ -39,12 +45,17 @@ export class AuthService {
 
   private async validateUser(userDto: CreateUserDto) {
     const user = await this.usersService.getUserByEmail(userDto.email)
-    const passwordEquals = await bcrypt.compare(userDto.password, user.password)
 
-    if (user && passwordEquals) {
-      return user
+    if (!user) {
+      throw new NotFoundException(`User with email ${userDto.email} not found`)
     }
 
-    throw new HttpException("Invalid credentials", HttpStatus.BAD_REQUEST)
+    const passwordEquals = await bcrypt.compare(userDto.password, user.password)
+
+    if (passwordEquals) {
+      return this.generateToken(user)
+    }
+
+    throw new BadRequestException("Invalid credentials")
   }
 }
