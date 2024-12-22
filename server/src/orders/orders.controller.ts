@@ -25,7 +25,7 @@ export class OrdersController {
 
   @ApiOperation({ summary: "Get all orders" })
   @ApiResponse({ status: 200, type: Array<CreateOrderDto> })
-  @Get("/all")
+  @Get()
   getAll() {
     return this.ordersService.getAllOrders()
   }
