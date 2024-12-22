@@ -5,6 +5,7 @@ import { UserRoles } from "../roles/user-roles.model"
 import { Order } from "../orders/orders.model"
 
 interface UserCreationAttributes {
+  name: string
   email: string
   password: string
 }
@@ -14,6 +15,10 @@ export class User extends Model<User, UserCreationAttributes> {
   @ApiProperty({ example: 1, description: "Unique identifier" })
   @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
   id: number
+
+  @ApiProperty({ example: "Name", description: "User name" })
+  @Column({ type: DataType.STRING, allowNull: false })
+  name: string
 
   @ApiProperty({ example: "example@gmail.com", description: "User email" })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
