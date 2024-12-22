@@ -72,7 +72,7 @@ export class UsersController {
   @ApiOperation({ summary: "Get all user's orders" })
   @ApiResponse({ status: 200, type: [ Order ] })
   @Get("/:userId/order")
-  getAllByUserID(@Param("userId") userId: number) {
+  getOrders(@Param("userId") userId: number) {
     return this.usersService.getUserOrders(userId)
   }
 }
