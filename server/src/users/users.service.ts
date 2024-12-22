@@ -78,4 +78,9 @@ export class UsersService {
 
     throw new NotFoundException("User or order not found")
   }
+
+  async getUserOrders(userId: number) {
+    const user = await this.userRepository.findByPk(userId, { include: [ { model: Order } ] })
+    return user.orders
+  }
 }

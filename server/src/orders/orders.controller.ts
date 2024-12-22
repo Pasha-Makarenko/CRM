@@ -30,13 +30,6 @@ export class OrdersController {
     return this.ordersService.getAllOrders()
   }
 
-  @ApiOperation({ summary: "Get all user's orders" })
-  @ApiResponse({ status: 200, type: Array<CreateOrderDto> })
-  @Get("/all/:id")
-  getAllByUserID(@Param("id") id: number) {
-    return this.ordersService.getAllOrdersByUserId(id)
-  }
-
   @ApiOperation({ summary: "Change order status" })
   @ApiResponse({ status: 200, type: CreateOrderDto })
   @Put()

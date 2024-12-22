@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common"
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from "@nestjs/common"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UsersService } from "./users.service"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
@@ -9,6 +9,7 @@ import { AddRoleDto } from "./dto/add-role.dto"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { Role, Roles } from "../roles/roles.model"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
+import { Order } from "../orders/orders.model"
 
 @ApiTags("Users")
 @Controller("users")
@@ -46,7 +47,7 @@ export class UsersController {
   @ApiOperation({ summary: "Get user's roles" })
   @ApiResponse({ status: 200, type: [ Role ] })
   @Get("/:userId/role")
-  getRoles(@Param() userId: number) {
+  getRoles(@Param("userId") userId: number) {
     return this.usersService.getUserRoles(userId)
   }
 
@@ -66,5 +67,12 @@ export class UsersController {
   @Put("/order")
   removeOrder(@Body() dto: RemoveOrderDto) {
     return this.usersService.removeOrder(dto)
+  }
+
+  @ApiOperation({ summary: "Get all user's orders" })
+  @ApiResponse({ status: 200, type: [ Order ] })
+  @Get("/:userId/order")
+  getAllByUserID(@Param("userId") userId: number) {
+    return this.usersService.getUserOrders(userId)
   }
 }

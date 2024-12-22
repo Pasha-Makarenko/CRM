@@ -17,10 +17,6 @@ export class OrdersService {
     return await this.orderRepository.findOne({ where: { id } })
   }
 
-  async getAllOrdersByUserId(userId: number) {
-    return await this.orderRepository.findAll({ where: { userId } })
-  }
-
   async getAllOrders() {
     return await this.orderRepository.findAll()
   }
