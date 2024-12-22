@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         name: "User",
-        email: "employee@example.com",
+        email: "user@example.com",
         password: "$2a$05$15kzx1IE61qG3n3B61yxF.2cJN.ci8roh8wHpMMutZKM7PFaLnvsC",
         createdAt: timestamp,
         updatedAt: timestamp
