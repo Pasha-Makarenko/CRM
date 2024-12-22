@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, UseGuards } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { UsersService } from "./users.service"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
@@ -7,7 +7,7 @@ import { RoleAuth } from "../auth/role-auth.decorator"
 import { RolesGuard } from "../auth/roles.guard"
 import { AddRoleDto } from "./dto/add-role.dto"
 import { AddOrderDto } from "./dto/add-order.dto"
-import { Roles } from "../roles/roles.model"
+import { Role, Roles } from "../roles/roles.model"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 
 @ApiTags("Users")
@@ -35,12 +35,19 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Add role" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: AddRoleDto })
   @RoleAuth(Roles.ADMIN)
   @UseGuards(RolesGuard)
   @Post("/role")
   addRole(@Body() dto: AddRoleDto) {
     return this.usersService.addRole(dto)
+  }
+
+  @ApiOperation({ summary: "Get user's roles" })
+  @ApiResponse({ status: 200, type: [ Role ] })
+  @Get("/:userId/role")
+  getRoles(@Param() userId: number) {
+    return this.usersService.getUserRoles(userId)
   }
 
   @ApiOperation({ summary: "Add order" })

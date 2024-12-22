@@ -8,7 +8,7 @@ import { OrdersService } from "../orders/orders.service"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
-import { Roles } from "../roles/roles.model"
+import { Role, Roles } from "../roles/roles.model"
 
 @Injectable()
 export class UsersService {
@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async getAllUsers() {
-    return await this.userRepository.findAll({ include: { all: true } })
+    return await this.userRepository.findAll()
   }
 
   async getUserByEmail(email: string) {
@@ -45,6 +45,11 @@ export class UsersService {
     }
 
     throw new NotFoundException("User or role not found")
+  }
+
+  async getUserRoles(userId: number) {
+    const user = await this.userRepository.findByPk(userId, { include: [ { model: Role } ] })
+    return user.roles
   }
 
   async addOrder(dto: AddOrderDto) {
