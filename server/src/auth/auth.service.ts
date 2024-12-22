@@ -4,11 +4,13 @@ import { UsersService } from "../users/users.service"
 import { JwtService } from "@nestjs/jwt"
 import * as bcrypt from "bcryptjs"
 import { User } from "../users/users.model"
+import { ConfigService } from "@nestjs/config"
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService,
-              private jwtService: JwtService) {
+              private jwtService: JwtService,
+              private configService: ConfigService) {
   }
 
   async login(userDto: CreateUserDto) {
@@ -22,7 +24,7 @@ export class AuthService {
       throw new HttpException("User with this email already exists", HttpStatus.CONFLICT)
     }
 
-    const hashPassword = await bcrypt.hash(userDto.password, process.env.SALT)
+    const hashPassword = await bcrypt.hash(userDto.password, Number(this.configService.get<number>("SALT")))
     const user = await this.usersService.createUser({ ...userDto, password: hashPassword })
 
     return this.generateToken(user)

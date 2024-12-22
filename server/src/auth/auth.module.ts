@@ -13,6 +13,7 @@ import { getJwtConfig } from "../config/jwt.config"
   imports: [
     forwardRef(() => UsersModule),
     forwardRef(() => RolesModule),
+    ConfigModule,
     JwtModule.registerAsync({
       imports: [ ConfigModule ],
       useFactory: getJwtConfig,
@@ -21,7 +22,8 @@ import { getJwtConfig } from "../config/jwt.config"
   ],
   exports: [
     AuthService,
-    JwtModule
+    JwtModule,
+    ConfigModule
   ]
 })
 export class AuthModule {
