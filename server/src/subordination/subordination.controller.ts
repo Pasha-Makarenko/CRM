@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Put, UseGuards } from "@nestjs/common"
 import { ApiOperation, ApiResponse } from "@nestjs/swagger"
 import { Roles, User } from "../users/users.model"
-import { RoleAuth } from "../roles/role-auth.decorator"
+import { RoleAuth } from "../roles/decorators/role-auth.decorator"
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
 import { RolesGuard } from "../roles/guards/roles.guard"
 import { AssignManagerDto } from "../users/dto/assign-manager.dto"
