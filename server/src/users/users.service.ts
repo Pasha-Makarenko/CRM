@@ -1,29 +1,25 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
-import { User } from "./users.model"
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common"
+import { Roles, User } from "./users.model"
 import { CreateUserDto } from "./dto/create-user.dto"
 import { InjectModel } from "@nestjs/sequelize"
-import { RolesService } from "../roles/roles.service"
-import { AddRoleDto } from "./dto/add-role.dto"
 import { OrdersService } from "../orders/orders.service"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
-import { Role, Roles } from "../roles/roles.model"
 import { AssignManagerDto } from "./dto/assign-manager.dto"
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User) private userRepository: typeof User,
-              private rolesService: RolesService,
               private ordersService: OrdersService) {
   }
 
   async createUser(dto: CreateUserDto) {
     const user = await this.userRepository.create(dto)
-    const role = await this.rolesService.getRoleByValue(Roles.USER)
 
-    await user.$set("roles", [ role.id ])
-    user.roles = [ role ]
+    if (!user) {
+      throw new InternalServerErrorException("User not created")
+    }
 
     return user
   }
@@ -32,44 +28,20 @@ export class UsersService {
     return await this.userRepository.findAll()
   }
 
+  async getUserById(id: number) {
+    return await this.userRepository.findByPk(id)
+  }
+
   async getUserByEmail(email: string) {
     return await this.userRepository.findOne({ where: { email } })
-  }
-
-  async addRole(dto: AddRoleDto) {
-    const user = await this.userRepository.findByPk(dto.userId)
-    const role = await this.rolesService.getRoleByValue(dto.value)
-
-    if (user && role) {
-      await user.$add("role", role.id)
-      return dto
-    }
-
-    throw new NotFoundException("User or role not found")
-  }
-
-  async getUserRoles(userId: number) {
-    const user = await this.userRepository.findByPk(userId, {
-      include: [ {
-        model: Role,
-        attributes: [ "id", "value" ]
-      } ]
-    })
-    return user.roles
   }
 
   async assignManager(dto: AssignManagerDto) {
     const user = await this.userRepository.findByPk(dto.userId)
     const manager = await this.userRepository.findByPk(dto.managerId)
 
-    const isUser = user && await this.getUserRoles(dto.userId).then(roles => {
-      return roles.some(r => r.value === Roles.USER)
-        && !roles.some(r => r.value !== Roles.USER)
-    })
-    const isManager = manager && await this.getUserRoles(dto.userId).then(roles => {
-      return roles.some(r => r.value === Roles.MANAGER)
-        && !roles.some(r => r.value !== Roles.MANAGER)
-    })
+    const isUser = user && user.role === Roles.USER
+    const isManager = manager && manager.role === Roles.MANAGER
 
     if (isUser && isManager) {
       user.managerId = manager.id

@@ -20,9 +20,6 @@ export class AuthService {
       throw new BadRequestException("Invalid credentials")
     }
 
-    const roles = await this.usersService.getUserRoles(user.id)
-    user.roles = roles
-
     return this.generateToken(user)
   }
 
@@ -44,7 +41,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       name: user.name,
-      roles: user.roles
+      role: user.role
     }
 
     return {

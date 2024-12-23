@@ -1,22 +1,39 @@
-import { Injectable } from "@nestjs/common"
-import { CreateRoleDto } from "./dto/create-role.dto"
-import { InjectModel } from "@nestjs/sequelize"
-import { Role } from "./roles.model"
+import { Injectable, NotFoundException } from "@nestjs/common"
+import { UsersService } from "../users/users.service"
+import { SetUserRoleDto } from "./dto/set-user-role.dto"
 
 @Injectable()
 export class RolesService {
-  constructor(@InjectModel(Role) private roleRepository: typeof Role) {
+  constructor(private usersService: UsersService) {
   }
 
-  async createRole(dto: CreateRoleDto) {
-    return await this.roleRepository.create(dto)
+  async getUserRole(userId: number) {
+    const user = await this.usersService.getUserById(userId)
+
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`)
+    }
+
+    return {
+      userId: user.id,
+      value: user.role
+    } as SetUserRoleDto
   }
 
-  async getRoleByValue(value: string) {
-    return await this.roleRepository.findOne({ where: { value } })
-  }
+  async setUserRole(dto: SetUserRoleDto) {
+    const user = await this.usersService.getUserById(dto.userId)
 
-  async getAllRoles() {
-    return await this.roleRepository.findAll()
+    console.log(user)
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${dto.userId} not found`)
+    }
+
+    // await user.$set("role", dto.value)
+
+    user.role = dto.value
+    await user.save()
+
+    return user
   }
 }

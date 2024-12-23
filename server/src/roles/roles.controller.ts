@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common"
 import { RolesService } from "./roles.service"
-import { CreateRoleDto } from "./dto/create-role.dto"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
-import { RoleAuth } from "../auth/role-auth.decorator"
-import { Roles } from "./roles.model"
-import { RolesGuard } from "../auth/roles.guard"
+import { RoleAuth } from "./role-auth.decorator"
+import { RolesGuard } from "./guards/roles.guard"
+import { SetUserRoleDto } from "./dto/set-user-role.dto"
+import { Roles, User } from "../users/users.model"
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
 
 @ApiTags("Roles")
 @Controller("roles")
@@ -12,26 +13,19 @@ export class RolesController {
   constructor(private rolesService: RolesService) {
   }
 
-  @ApiOperation({ summary: "Create role" })
-  @ApiResponse({ status: 200, type: CreateRoleDto })
+  @ApiOperation({ summary: "Get user role" })
+  @ApiResponse({ status: 200, type: SetUserRoleDto })
+  @Get("/:userId")
+  getRole(@Param("userId") userId: number) {
+    return this.rolesService.getUserRole(userId)
+  }
+
+  @ApiOperation({ summary: "Set user role" })
+  @ApiResponse({ status: 200, type: User })
   @RoleAuth(Roles.ADMIN)
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body() dto: CreateRoleDto) {
-    return this.rolesService.createRole(dto)
-  }
-
-  @ApiOperation({ summary: "Get all roles" })
-  @ApiResponse({ status: 200, type: CreateRoleDto })
-  @Get()
-  getAll() {
-    return this.rolesService.getAllRoles()
-  }
-
-  @ApiOperation({ summary: "Get role by value" })
-  @ApiResponse({ status: 200, type: CreateRoleDto })
-  @Get("/:value")
-  getByValue(@Param("value") value: string) {
-    return this.rolesService.getRoleByValue(value)
+  setRole(@Body() dto: SetUserRoleDto) {
+    return this.rolesService.setUserRole(dto)
   }
 }

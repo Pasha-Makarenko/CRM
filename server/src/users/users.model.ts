@@ -1,8 +1,12 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript"
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript"
 import { ApiProperty } from "@nestjs/swagger"
-import { Role } from "../roles/roles.model"
-import { UserRoles } from "../roles/user-roles.model"
 import { Order } from "../orders/orders.model"
+
+export enum Roles {
+  ADMIN = "ADMIN",
+  MANAGER = "MANAGER",
+  USER = "USER"
+}
 
 interface UserCreationAttributes {
   name: string
@@ -28,6 +32,10 @@ export class User extends Model<User, UserCreationAttributes> {
   @Column({ type: DataType.STRING, allowNull: false })
   password: string
 
+  @ApiProperty({ example: Roles.USER, description: "User role" })
+  @Column({ type: DataType.ENUM(...Object.values(Roles)), defaultValue: Roles.USER })
+  role: Roles
+
   @ApiProperty({ example: 1, description: "Manager identifier (if user role is \"USER\")" })
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER, allowNull: true })
@@ -38,9 +46,6 @@ export class User extends Model<User, UserCreationAttributes> {
 
   @HasMany(() => User, "managerId")
   subordinates: User[]
-
-  @BelongsToMany(() => Role, () => UserRoles)
-  roles: Array<Role>
 
   @HasMany(() => Order)
   orders: Order[]
