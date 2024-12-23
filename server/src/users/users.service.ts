@@ -7,6 +7,7 @@ import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
 import { AssignManagerDto } from "./dto/assign-manager.dto"
+import { FindOptions } from "sequelize"
 
 @Injectable()
 export class UsersService {
@@ -24,8 +25,8 @@ export class UsersService {
     return user
   }
 
-  async getAllUsers() {
-    return await this.userRepository.findAll()
+  async getAllUsers(condition: FindOptions<User>["where"] = {}) {
+    return await this.userRepository.findAll({ where: condition })
   }
 
   async getUserById(id: number) {

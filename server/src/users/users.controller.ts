@@ -8,7 +8,6 @@ import { RolesGuard } from "../roles/guards/roles.guard"
 import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
-import { AssignManagerDto } from "./dto/assign-manager.dto"
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
 
 @ApiTags("Users")
@@ -33,22 +32,6 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAllUsers()
-  }
-
-  @ApiOperation({ summary: "Assign manager" })
-  @ApiResponse({ status: 200, type: User })
-  @RoleAuth(Roles.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Put("/manager")
-  assignManager(@Body() dto: AssignManagerDto) {
-    return this.usersService.assignManager(dto)
-  }
-
-  @ApiOperation({ summary: "Get manager subordinates" })
-  @ApiResponse({ status: 200, type: [ User ] })
-  @Get("/:userId/subordinates")
-  getSubordinates(@Param("userId") userId: number) {
-    return this.usersService.getManagerSubordinates(userId)
   }
 
   @ApiOperation({ summary: "Add order" })

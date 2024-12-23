@@ -9,7 +9,7 @@ import { AuthModule } from "../auth/auth.module"
   controllers: [ RolesController ],
   imports: [
     UsersModule,
-    forwardRef(() => AuthModule)
+    AuthModule
   ]
 })
 export class RolesModule {
