@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common"
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common"
 import { UsersService } from "../users/users.service"
 import { SetUserRoleDto } from "./dto/set-user-role.dto"
+import { Roles } from "../users/users.model"
 
 @Injectable()
 export class RolesService {
@@ -23,13 +24,14 @@ export class RolesService {
   async setUserRole(dto: SetUserRoleDto) {
     const user = await this.usersService.getUserById(dto.userId)
 
-    console.log(user)
 
     if (!user) {
       throw new NotFoundException(`User with id ${dto.userId} not found`)
     }
 
-    // await user.$set("role", dto.value)
+    if (user.role === Roles.ADMIN) {
+      throw new ForbiddenException("You can't change role of admin")
+    }
 
     user.role = dto.value
     await user.save()
