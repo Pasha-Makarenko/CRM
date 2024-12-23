@@ -4,29 +4,30 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     const timestamp = new Date()
+    const password = "$2a$05$15kzx1IE61qG3n3B61yxF.2cJN.ci8roh8wHpMMutZKM7PFaLnvsC"
 
     await queryInterface.bulkInsert("users", [
       {
         name: "Admin",
         email: "admin@example.com",
-        password: "$2a$05$15kzx1IE61qG3n3B61yxF.2cJN.ci8roh8wHpMMutZKM7PFaLnvsC",
+        password,
         createdAt: timestamp,
         updatedAt: timestamp
       },
-      {
-        name: "Manager",
-        email: "manager@example.com",
-        password: "$2a$05$15kzx1IE61qG3n3B61yxF.2cJN.ci8roh8wHpMMutZKM7PFaLnvsC",
+      ...new Array(3).fill(0).map((_, i) => ({
+        name: `Manager ${i + 1}`,
+        email: `manager${i + 1}@example.com`,
+        password,
         createdAt: timestamp,
         updatedAt: timestamp
-      },
-      {
-        name: "User",
-        email: "user@example.com",
-        password: "$2a$05$15kzx1IE61qG3n3B61yxF.2cJN.ci8roh8wHpMMutZKM7PFaLnvsC",
+      })),
+      ...new Array(6).fill(0).map((_, i) => ({
+        name: `User ${i + 1}`,
+        email: `user${i + 1}@example.com`,
+        password,
         createdAt: timestamp,
         updatedAt: timestamp
-      }
+      }))
     ])
 
     const users = await queryInterface.sequelize.query("SELECT id FROM Users;")
@@ -35,11 +36,19 @@ module.exports = {
     const [ userRows ] = users
     const [ roleRows ] = roles
 
-    await queryInterface.bulkInsert("user_roles", [
-      { userId: userRows[0].id, roleId: roleRows[0].id },
-      { userId: userRows[1].id, roleId: roleRows[1].id },
-      { userId: userRows[2].id, roleId: roleRows[2].id }
-    ])
+    const roleIndex = i => {
+      if (i === 0) return 0
+      if (i <= 3) return 1
+      return 2
+    }
+
+    await queryInterface.bulkInsert(
+      "user_roles",
+      new Array(10).fill(0).map((_, i) => ({
+        userId: userRows[i].id,
+        roleId: roleRows[roleIndex(i)].id
+      }))
+    )
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("roles", null, {})

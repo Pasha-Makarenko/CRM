@@ -9,6 +9,7 @@ import { AddOrderDto } from "./dto/add-order.dto"
 import { RemoveOrderDto } from "./dto/remove-order.dto"
 import { Order } from "../orders/orders.model"
 import { Role, Roles } from "../roles/roles.model"
+import { AssignManagerDto } from "./dto/assign-manager.dto"
 
 @Injectable()
 export class UsersService {
@@ -55,6 +56,33 @@ export class UsersService {
       } ]
     })
     return user.roles
+  }
+
+  async assignManager(dto: AssignManagerDto) {
+    const user = await this.userRepository.findByPk(dto.userId)
+    const manager = await this.userRepository.findByPk(dto.managerId)
+
+    const isUser = user && await this.getUserRoles(dto.userId).then(roles => {
+      return roles.some(r => r.value === Roles.USER)
+        && !roles.some(r => r.value !== Roles.USER)
+    })
+    const isManager = manager && await this.getUserRoles(dto.userId).then(roles => {
+      return roles.some(r => r.value === Roles.MANAGER)
+        && !roles.some(r => r.value !== Roles.MANAGER)
+    })
+
+    if (isUser && isManager) {
+      user.managerId = manager.id
+      return await user.save()
+    }
+
+    throw new NotFoundException("User or manager not found")
+  }
+
+  async getManagerSubordinates(managerId: number) {
+
+
+    return await this.userRepository.findAll({ where: { managerId } })
   }
 
   async addOrder(dto: AddOrderDto) {
