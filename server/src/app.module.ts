@@ -7,6 +7,7 @@ import { RolesModule } from "./roles/roles.module"
 import { AuthModule } from "./auth/auth.module"
 import { OrdersModule } from "./orders/orders.module"
 import { config } from "./config/config"
+import { SubordinationModule } from "./subordination/subordination.module"
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { config } from "./config/config"
     UsersModule,
     RolesModule,
     AuthModule,
-    OrdersModule
+    OrdersModule,
+    SubordinationModule
   ]
 })
 export class AppModule {
