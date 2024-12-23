@@ -12,7 +12,7 @@ export class RolesService {
     const user = await this.usersService.getUserById(userId)
 
     if (!user) {
-      throw new Error(`User with id ${userId} not found`)
+      throw new Error(`User with id ${ userId } not found`)
     }
 
     return {
@@ -26,7 +26,7 @@ export class RolesService {
 
 
     if (!user) {
-      throw new NotFoundException(`User with id ${dto.userId} not found`)
+      throw new NotFoundException(`User with id ${ dto.userId } not found`)
     }
 
     if (user.role === Roles.ADMIN) {

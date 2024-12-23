@@ -16,16 +16,16 @@ module.exports = {
         updatedAt: timestamp
       },
       ...new Array(3).fill(0).map((_, i) => ({
-        name: `Manager ${i + 1}`,
-        email: `manager${i + 1}@example.com`,
+        name: `Manager ${ i + 1 }`,
+        email: `manager${ i + 1 }@example.com`,
         password,
         role: "MANAGER",
         createdAt: timestamp,
         updatedAt: timestamp
       })),
       ...new Array(6).fill(0).map((_, i) => ({
-        name: `User ${i + 1}`,
-        email: `user${i + 1}@example.com`,
+        name: `User ${ i + 1 }`,
+        email: `user${ i + 1 }@example.com`,
         password,
         role: "USER",
         createdAt: timestamp,

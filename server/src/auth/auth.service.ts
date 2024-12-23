@@ -53,7 +53,7 @@ export class AuthService {
     const user = await this.usersService.getUserByEmail(userDto.email)
 
     if (!user) {
-      throw new NotFoundException(`User with email ${userDto.email} not found`)
+      throw new NotFoundException(`User with email ${ userDto.email } not found`)
     }
 
     const passwordEquals = await bcrypt.compare(userDto.password, user.password)
