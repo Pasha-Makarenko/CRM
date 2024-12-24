@@ -39,6 +39,6 @@ export class SubordinationService {
   }
 
   async getManagerSubordinates(managerId: number) {
-    return  await this.userService.getAllUsers({ managerId })
+    return await this.userService.getAllUsers({ managerId })
   }
 }

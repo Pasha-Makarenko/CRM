@@ -15,6 +15,7 @@ interface OrderCreationAttributes {
   dueDate: Date
   description: string
   contact: string
+  userId: number
 }
 
 @Table({ tableName: "orders" })

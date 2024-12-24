@@ -4,7 +4,6 @@ import { UsersService } from "./users.service"
 import { SequelizeModule } from "@nestjs/sequelize"
 import { User } from "./users.model"
 import { AuthModule } from "../auth/auth.module"
-import { OrdersModule } from "../orders/orders.module"
 import { Order } from "../orders/orders.model"
 
 @Module({
@@ -12,7 +11,6 @@ import { Order } from "../orders/orders.model"
   providers: [ UsersService ],
   imports: [
     SequelizeModule.forFeature([ User, Order ]),
-    OrdersModule,
     forwardRef(() => AuthModule)
   ],
   exports: [
