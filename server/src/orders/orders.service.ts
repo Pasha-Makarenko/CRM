@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
-import { CreateOrderDto } from "./dto/create-order.dto"
+import { CreateOrderDto } from "../dto/create-order.dto"
 import { InjectModel } from "@nestjs/sequelize"
 import { Order } from "./orders.model"
-import { UpdateOrderDto } from "./dto/update-order.dto"
-import { AddOrderDto } from "../users/dto/add-order.dto"
-import { RemoveOrderDto } from "../users/dto/remove-order.dto"
+import { UpdateOrderDto } from "../dto/update-order.dto"
+import { AddOrderDto } from "../dto/add-order.dto"
+import { RemoveOrderDto } from "../dto/remove-order.dto"
 import { UsersService } from "../users/users.service"
 
 @Injectable()

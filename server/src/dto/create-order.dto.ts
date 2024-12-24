@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { OrderStatus } from "../orders.model"
+import { OrderStatus } from "../orders/orders.model"
 import { IsDate, IsEmail, IsEnum, IsNumber, IsString } from "class-validator"
 
 export class CreateOrderDto {

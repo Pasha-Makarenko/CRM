@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common"
-import { AssignManagerDto } from "../users/dto/assign-manager.dto"
+import { AssignManagerDto } from "../dto/assign-manager.dto"
 import { UsersService } from "../users/users.service"
 import { Roles } from "../users/users.model"
 

@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common"
 import { UsersService } from "../users/users.service"
-import { SetUserRoleDto } from "./dto/set-user-role.dto"
+import { SetUserRoleDto } from "../dto/set-user-role.dto"
 import { Roles } from "../users/users.model"
 
 @Injectable()

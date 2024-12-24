@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsDate, IsEmail, IsEnum, IsNumber, IsOptional, IsString } from "class-validator"
-import { OrderStatus } from "../orders.model"
+import { OrderStatus } from "../orders/orders.model"
 
 export class UpdateOrderDto {
   @ApiProperty({ example: 1, description: "Unique identifier" })

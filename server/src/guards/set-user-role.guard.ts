@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Inject, Injectable } from "@nestjs/common"
 import { Observable } from "rxjs"
 import { SetUserRoleDto } from "../dto/set-user-role.dto"
-import { UsersService } from "../../users/users.service"
-import { Roles } from "../../users/users.model"
+import { UsersService } from "../users/users.service"
+import { Roles } from "../users/users.model"
 
 @Injectable()
 export class SetUserRoleGuard implements CanActivate {

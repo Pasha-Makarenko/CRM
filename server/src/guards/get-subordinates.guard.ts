@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common"
 import { Observable } from "rxjs"
-import { User } from "../../users/users.model"
+import { User } from "../users/users.model"
 
 @Injectable()
 export class GetSubordinatesGuard implements CanActivate {

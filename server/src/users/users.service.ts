@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common"
 import { User } from "./users.model"
-import { CreateUserDto } from "./dto/create-user.dto"
+import { CreateUserDto } from "../dto/create-user.dto"
 import { InjectModel } from "@nestjs/sequelize"
 import { FindOptions } from "sequelize"
 

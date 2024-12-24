@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common"
 import { RolesService } from "./roles.service"
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
-import { RoleAuth } from "./decorators/role-auth.decorator"
-import { RolesGuard } from "./guards/roles.guard"
-import { SetUserRoleDto } from "./dto/set-user-role.dto"
+import { RoleAuth } from "../decorators/role-auth.decorator"
+import { RolesGuard } from "../guards/roles.guard"
+import { SetUserRoleDto } from "../dto/set-user-role.dto"
 import { Roles, User } from "../users/users.model"
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
-import { SetUserRoleGuard } from "./guards/set-user-role.guard"
+import { JwtAuthGuard } from "../guards/jwt-auth.guard"
+import { SetUserRoleGuard } from "../guards/set-user-role.guard"
 
 @ApiTags("Roles")
 @Controller("roles")
