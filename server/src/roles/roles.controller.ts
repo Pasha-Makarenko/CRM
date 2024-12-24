@@ -6,6 +6,7 @@ import { RolesGuard } from "./guards/roles.guard"
 import { SetUserRoleDto } from "./dto/set-user-role.dto"
 import { Roles, User } from "../users/users.model"
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
+import { SetUserRoleGuard } from "./guards/set-user-role.guard"
 
 @ApiTags("Roles")
 @Controller("roles")
@@ -23,7 +24,7 @@ export class RolesController {
   @ApiOperation({ summary: "Set user role" })
   @ApiResponse({ status: 200, type: User })
   @RoleAuth(Roles.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard, SetUserRoleGuard)
   @Post()
   setRole(@Body() dto: SetUserRoleDto) {
     return this.rolesService.setUserRole(dto)
