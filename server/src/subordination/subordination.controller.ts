@@ -6,6 +6,7 @@ import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard"
 import { RolesGuard } from "../roles/guards/roles.guard"
 import { AssignManagerDto } from "../users/dto/assign-manager.dto"
 import { SubordinationService } from "./subordination.service"
+import { GetSubordinatesGuard } from "./guards/get-subordinates.guard"
 
 @Controller("subordination")
 export class SubordinationController {
@@ -32,6 +33,7 @@ export class SubordinationController {
 
   @ApiOperation({ summary: "Get manager subordinates" })
   @ApiResponse({ status: 200, type: [ User ] })
+  @UseGuards(JwtAuthGuard, GetSubordinatesGuard)
   @Get("/:userId")
   getSubordinates(@Param("userId") userId: number) {
     return this.subordinationService.getManagerSubordinates(userId)
