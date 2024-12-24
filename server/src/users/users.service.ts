@@ -37,27 +37,6 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email } })
   }
 
-  async assignManager(dto: AssignManagerDto) {
-    const user = await this.userRepository.findByPk(dto.userId)
-    const manager = await this.userRepository.findByPk(dto.managerId)
-
-    const isUser = user && user.role === Roles.USER
-    const isManager = manager && manager.role === Roles.MANAGER
-
-    if (isUser && isManager) {
-      user.managerId = manager.id
-      return await user.save()
-    }
-
-    throw new NotFoundException("User or manager not found")
-  }
-
-  async getManagerSubordinates(managerId: number) {
-
-
-    return await this.userRepository.findAll({ where: { managerId } })
-  }
-
   async addOrder(dto: AddOrderDto) {
     const user = await this.userRepository.findByPk(dto.userId)
     const order = await this.ordersService.getOrdersById(dto.orderId)

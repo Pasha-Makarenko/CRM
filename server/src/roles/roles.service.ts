@@ -24,7 +24,6 @@ export class RolesService {
   async setUserRole(dto: SetUserRoleDto) {
     const user = await this.usersService.getUserById(dto.userId)
 
-
     if (!user) {
       throw new NotFoundException(`User with id ${ dto.userId } not found`)
     }
